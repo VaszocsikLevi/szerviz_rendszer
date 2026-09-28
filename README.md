@@ -62,16 +62,6 @@ Python eszközök	Adatimport bevezetéskor, seed-adat generálás, később karb
 6. Adatmodell – ez az SQL alapja
 Ez a rész javaslat, nem végleges. Ezen kell végigmennünk együtt, mezőnként.
 
-Entitások és kapcsolataik
-Ugyfel ──1:N──> Telephely ──1:N──> Gep
-                                    │
-Geptipus ──1:N──> Gep               │
-                                    v
-                            Szervizesemeny ──1:1──> Munkalap
-                                    ^                  │
-                                    │                  ├──1:N──> Foto
-Felhasznalo ────────────────────────┘                  └──1:N──> AlkatreszFelhasznalas
-   (hozzárendelt szerelő)
 Táblánként, javasolt mezőkkel
 ugyfel — a megrendelő cég id, nev, adoszam, kapcsolattarto_nev, email, telefon, letrehozva
 
@@ -101,8 +91,6 @@ Az állapotgép
 A szervizesemeny.statusz értékei és az engedélyezett átmenetek:
 
 TERVEZETT ──> KIOSZTOTT ──> FOLYAMATBAN ──> KESZ ──> LEZART
-    │              │
-    └──────────────┴──> TOROLT
 Átmenet	Ki válthatja	Mikor
 TERVEZETT → KIOSZTOTT	diszpécser	szerelő hozzárendelésekor
 KIOSZTOTT → FOLYAMATBAN	szerelő	amikor elkezdi a munkát
@@ -142,26 +130,3 @@ Ami itt kell, azt szabályalapon jobban meg lehet oldani. A fejlécillesztés de
 Ami valóban ML-t igényelne — a fejléc nélküli, kaotikus táblák értelmezése az oszlopok tartalmából —, ahhoz sok valós, rendezetlen Excel-tábla kellene tanítóadatnak. Ilyen nincs, és szintetikusan generálva a modell csak azt tanulná meg, amit mi generáltunk.
 
 Elv az egész projektre: ha egy problémára van működő szabályalapú megoldás, ML-t rátenni nem érdem, hanem hiba. A valódi ML oda kerül, ahol az adat magától keletkezik — a karbantartás-előrejelzéshez, ahol a rendszer saját szervizelőzménye a tanítóhalmaz.
-
-8. Amit el kell döntenünk, mielőtt SQL-t írunk
-Karbantartási ciklus: naptári nap, üzemóra, vagy mindkettő? Ha mindkettő, melyik győz?
-Üzemóra frissítése: a szerelő írja be minden kiszálláskor, vagy külön funkció?
-Fotók tárolása: fájlrendszeren útvonallal (egyszerűbb), vagy adatbázisban BLOB-ként (nehezebb, de a dump önmagában teljes)?
-Aláírás: kép fájlként, vagy base64 a munkalap rekordban?
-Alkatrészek: kell-e egyáltalán katalógus, vagy elég szabad szövegként beírni? (A katalógus szebb, de több munka.)
-Törlés: fizikai törlés, vagy aktiv / torolve jelölés? (Utóbbi biztonságosabb.)
-Publikus státuszoldal: milyen azonosítóval érhető el? A szervizesemeny.uuid kitalálhatatlan, tehát biztonságos.
-9. Amit tudatosan kihagyunk
-Ez fontos, mert a scope védelme dönti el, hogy elkészül-e. Ezek nem részei a rendszernek:
-
-CSV/Excel importőr felület az admin oldalon (helyette Python CLI szkript, ld. 7. pont)
-Teljes készletkezelés raktárkészlettel és beszerzéssel
-Számlázás és árajánlat
-Garanciakövetés
-Több cég kiszolgálása egy rendszerben (multi-tenant)
-Push értesítések
-iOS natív telepítés (Android .apk + Expo Go elég)
-Ha ezek bármelyike felmerül menet közben, a válasz alapból nem.
-
-10. Következő lépés
-Végigmenni a 8. pont hét kérdésén, majd a 6. pont tábláin mezőnként. Ha ez megvan, megírható a V1__init.sql, és onnantól a backend és a HTML sablonok párhuzamosan indulhatnak.
