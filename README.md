@@ -43,15 +43,15 @@ Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet ind
 [ Mobil app ]  ──HTTP──┐
   React Native          │
   + lokális SQLite      │
-                        ▼
-[ Web admin ] ──HTTP──▶ [ Backend API ] ──▶ [ MySQL ]
+                        v
+[ Web admin ] ──HTTP──> [ Backend API ] ──> [ MySQL ]
   React                   Spring Boot
                             │
-                            ▼
+                            v
                      [ Python szolgáltatás ]
                        FastAPI (opcionális)
 [ Publikus oldal ]
-  statikus HTML/CSS ──HTTP──▶ Backend API
+  statikus HTML/CSS ──HTTP──> Backend API
 Komponens	Mit csinál
 Backend API	Az egyetlen, ami az adatbázishoz nyúl. Minden más rajta keresztül dolgozik.
 MySQL	A rendszer igazsága. Minden végleges adat itt van.
@@ -63,14 +63,14 @@ Python eszközök	Adatimport bevezetéskor, seed-adat generálás, később karb
 Ez a rész javaslat, nem végleges. Ezen kell végigmennünk együtt, mezőnként.
 
 Entitások és kapcsolataik
-Ugyfel ──1:N──▶ Telephely ──1:N──▶ Gep
+Ugyfel ──1:N──> Telephely ──1:N──> Gep
                                     │
-Geptipus ──1:N──▶ Gep               │
-                                    ▼
-                            Szervizesemeny ──1:1──▶ Munkalap
-                                    ▲                  │
-                                    │                  ├──1:N──▶ Foto
-Felhasznalo ────────────────────────┘                  └──1:N──▶ AlkatreszFelhasznalas
+Geptipus ──1:N──> Gep               │
+                                    v
+                            Szervizesemeny ──1:1──> Munkalap
+                                    ^                  │
+                                    │                  ├──1:N──> Foto
+Felhasznalo ────────────────────────┘                  └──1:N──> AlkatreszFelhasznalas
    (hozzárendelt szerelő)
 Táblánként, javasolt mezőkkel
 ugyfel — a megrendelő cég id, nev, adoszam, kapcsolattarto_nev, email, telefon, letrehozva
@@ -100,9 +100,9 @@ alkatresz_felhasznalas id, uuid, munkalap_id (FK), alkatresz_id (FK), mennyiseg
 Az állapotgép
 A szervizesemeny.statusz értékei és az engedélyezett átmenetek:
 
-TERVEZETT ──▶ KIOSZTOTT ──▶ FOLYAMATBAN ──▶ KESZ ──▶ LEZART
+TERVEZETT ──> KIOSZTOTT ──> FOLYAMATBAN ──> KESZ ──> LEZART
     │              │
-    └──────────────┴──▶ TOROLT
+    └──────────────┴──> TOROLT
 Átmenet	Ki válthatja	Mikor
 TERVEZETT → KIOSZTOTT	diszpécser	szerelő hozzárendelésekor
 KIOSZTOTT → FOLYAMATBAN	szerelő	amikor elkezdi a munkát
