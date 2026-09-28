@@ -40,6 +40,18 @@ b) Ütközésnél a szerver nyer. Ha ugyanazt a rekordot a diszpécser is módos
 Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet indokolni, miért ezt választottuk.
 
 5. Rendszerkomponensek
+[ Mobil app ]  ──HTTP──┐
+  React Native          │
+  + lokális SQLite      │
+                        v
+[ Web admin ] ──HTTP──> [ Backend API ] ──> [ MySQL ]
+  React                   Spring Boot
+                            │
+                            v
+                     [ Python szolgáltatás ]
+                       FastAPI (opcionális)
+[ Publikus oldal ]
+  statikus HTML/CSS ──HTTP──> Backend API
 Komponens	Mit csinál
 Backend API	Az egyetlen, ami az adatbázishoz nyúl. Minden más rajta keresztül dolgozik.
 MySQL	A rendszer igazsága. Minden végleges adat itt van.
@@ -90,29 +102,11 @@ Ezt a szabályt a backendnek kell kikényszerítenie — nem elég a felületen 
 7. Adatmigráció – hogyan kerül be a meglévő nyilvántartás
 A rendszer bevezetésekor az ügyfélnél már ott van 100–300 gép Excelben vagy papíron. Ezt kézzel begépelni nem reális, tehát kell egy betöltési út.
 
-Fontos szétválasztani két dolgot:
-
-Mi ez	Hogyan oldjuk meg
-Folyamatos adatfelvitel	a diszpécser új ügyfelet, telephelyet, gépet visz fel	az admin felület CRUD funkciói — ez amúgy is kész az I4-re
+Folyamatos adatfelvitel	a diszpécser új ügyfelet, telephelyet, gépet visz fel	az admin felület CRUD funkciói
 Kezdeti betöltés (migráció)	egyszeri, nagy tömegű adat behozása bevezetéskor	Python CLI import szkript
-Miért CLI szkript, és nem feltöltő felület
-Az admin felületre épített CSV-importőr szebb, de fél iterációnyi munka: fájlfeltöltés, oszlopmegfeleltető felület, soronkénti validáció, hibás sorok kezelése, duplikátumszűrés. A scope védelme miatt ez most kimarad.
-
-Helyette parancssorból futtatható Python szkript, pandas + openpyxl alapon. Három okból ez a jó döntés:
-
-Ez tartja a Pythont a stackben akkor is, ha az ML rész kimarad.
-Ugyanez a szkript adja a seed-adatot a saját teszteléshez. Az I1-ben amúgy is kell 20 gép és 3 telephely — ha mindjárt importőrként írjuk meg, kétszer hasznosul.
-A valóságban is így megy. Az adatmigráció egyszeri, szakértelmet igénylő művelet, nem végfelhasználói funkció. Ez a bemutatón megindokolható.
-Mit tud a szkript
 Excel (.xlsx) és CSV bemenet
-Fuzzy fejlécillesztés: felismeri, hogy a Gyártási szám, Sorozatszám, S/N, Serial mind ugyanaz az oszlop. Karakterlánc-hasonlóság alapján, nem ML-lel.
+Fuzzy fejlécillesztés: felismeri, hogy a Gyártási szám, Sorozatszám, S/N, Serial mind ugyanaz az oszlop. Karakterlánc-hasonlóság alapján.
 Típusfelismerés mintákkal: dátumformátumok, számok, irányítószám
 Soronkénti validáció, a hibás sorok külön hibafájlba
 Duplikátumszűrés sorozatszám alapján
-Bizonytalanság esetén visszakérdez, nem talál ki
-Miért nem ML ez
-Felmerült, hogy az oszlopfelismerést tanuló modell végezze. Két okból nem:
-
-Ami itt kell, azt szabályalapon jobban meg lehet oldani. A fejlécillesztés determinisztikus, megmagyarázható, és hibátlanul működik. Egy modell ugyanerre kevésbé megbízható lenne.
-
-Ami valóban ML-t igényelne — a fejléc nélküli, kaotikus táblák értelmezése az oszlopok tartalmából —, ahhoz sok valós, rendezetlen Excel-tábla kellene tanítóadatnak. Ilyen nincs, és szintetikusan generálva a modell csak azt tanulná meg, amit mi generáltunk.
+Bizonytalanság esetén visszakérdez, nem talál ki.
