@@ -40,18 +40,6 @@ b) Ütközésnél a szerver nyer. Ha ugyanazt a rekordot a diszpécser is módos
 Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet indokolni, miért ezt választottuk.
 
 5. Rendszerkomponensek
-[ Mobil app ]  ──HTTP──┐
-  React Native          │
-  + lokális SQLite      │
-                        v
-[ Web admin ] ──HTTP──> [ Backend API ] ──> [ MySQL ]
-  React                   Spring Boot
-                            │
-                            v
-                     [ Python szolgáltatás ]
-                       FastAPI (opcionális)
-[ Publikus oldal ]
-  statikus HTML/CSS ──HTTP──> Backend API
 Komponens	Mit csinál
 Backend API	Az egyetlen, ami az adatbázishoz nyúl. Minden más rajta keresztül dolgozik.
 MySQL	A rendszer igazsága. Minden végleges adat itt van.
@@ -128,5 +116,3 @@ Felmerült, hogy az oszlopfelismerést tanuló modell végezze. Két okból nem:
 Ami itt kell, azt szabályalapon jobban meg lehet oldani. A fejlécillesztés determinisztikus, megmagyarázható, és hibátlanul működik. Egy modell ugyanerre kevésbé megbízható lenne.
 
 Ami valóban ML-t igényelne — a fejléc nélküli, kaotikus táblák értelmezése az oszlopok tartalmából —, ahhoz sok valós, rendezetlen Excel-tábla kellene tanítóadatnak. Ilyen nincs, és szintetikusan generálva a modell csak azt tanulná meg, amit mi generáltunk.
-
-Elv az egész projektre: ha egy problémára van működő szabályalapú megoldás, ML-t rátenni nem érdem, hanem hiba. A valódi ML oda kerül, ahol az adat magától keletkezik — a karbantartás-előrejelzéshez, ahol a rendszer saját szervizelőzménye a tanítóhalmaz.
