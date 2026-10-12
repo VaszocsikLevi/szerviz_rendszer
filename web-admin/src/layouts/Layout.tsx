@@ -10,7 +10,7 @@ export default function Layout() {
                     <NavLink to="/gepek" >Géplista</NavLink>
                     <NavLink to="/ugyfelek" >Ügyfelek</NavLink>
                     <NavLink to="/telephelyek" >Telephelyek</NavLink>
-                    <NavLink to="/szervizesemeny" >Szervizesemények</NavLink>
+                    <NavLink to="/szervizesemenyek" >Szervizesemények</NavLink>
                     <NavLink to="/munkakiosztas" >Munkakiosztás</NavLink>
                     <NavLink to="/esedekesseg" >Esedékesség</NavLink>
                 </nav>
