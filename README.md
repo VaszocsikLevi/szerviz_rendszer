@@ -44,7 +44,7 @@ Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet ind
   React Native          │
   + lokális SQLite      │
                         v
-[ Web admin ] ──HTTP──> [ Backend API ] ──> [ MySQL ]
+[ Web admin ] ──HTTP──> [ Backend API ] ──> [ PostreSQL ]
   React                   Spring Boot
                             │
                             v
@@ -54,15 +54,14 @@ Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet ind
   statikus HTML/CSS ──HTTP──> Backend API
 Komponens	Mit csinál
 Backend API	Az egyetlen, ami az adatbázishoz nyúl. Minden más rajta keresztül dolgozik.
-MySQL	A rendszer igazsága. Minden végleges adat itt van.
+PostgreSQL	A rendszer igazsága. Minden végleges adat itt van.
 Web admin	A diszpécser felülete. Csak online működik.
 Mobil app	A szerelő felülete. Offline is működik, saját lokális adatbázissal.
 Publikus oldal	Kézzel írt HTML/CSS. Csak olvas, azonosító alapján.
 Python eszközök	Adatimport bevezetéskor, seed-adat generálás, később karbantartás-előrejelzés. A rendszer nélkülük is teljes.
 6. Adatmodell – ez az SQL alapja
-Ez a rész javaslat, nem végleges. Ezen kell végigmennünk együtt, mezőnként.
 
-Táblánként, javasolt mezőkkel
+Táblánként:
 ugyfel — a megrendelő cég id, nev, adoszam, kapcsolattarto_nev, email, telefon, letrehozva
 
 telephely — ahol a gépek fizikailag vannak id, ugyfel_id (FK), nev, cim, varos, iranyitoszam, megjegyzes
