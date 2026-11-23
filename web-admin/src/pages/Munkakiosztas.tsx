@@ -14,7 +14,7 @@ const NAPI_KERET = 8
 
 const prioritasSuly = { SURGOS: 0, MAGAS: 1, NORMAL: 2, ALACSONY: 3 }
 
-export default function Munkakiosztas() {
+const Munkakiosztas = () => {
   // Kiosztás az oldalon belül – élesben: PATCH /api/szervizesemenyek/{uuid} { hozzarendelt_szerelo_id }
   const [esemenyek, setEsemenyek] = useState<Szervizesemeny[]>(szervizesemenyek)
   const [valasztott, setValasztott] = useState<Record<number, string>>({})
@@ -28,7 +28,7 @@ export default function Munkakiosztas() {
     (e) => e.tervezett_datum === nap && e.hozzarendelt_szerelo_id !== null && e.statusz !== 'TOROLT',
   )
 
-  function kioszt(e: Szervizesemeny) {
+  const kioszt = (e: Szervizesemeny) => {
     const szereloId = Number(valasztott[e.id])
     if (!szereloId) return
     setEsemenyek(
@@ -179,3 +179,5 @@ export default function Munkakiosztas() {
     </div>
   )
 }
+
+export default Munkakiosztas

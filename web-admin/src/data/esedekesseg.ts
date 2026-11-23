@@ -26,7 +26,7 @@ export const HAMAROSAN_NAP = 30
 /** Az üzemóra-ciklus ekkora része maradt hátra -> "hamarosan" */
 export const HAMAROSAN_ORA_ARANY = 0.1
 
-export function szamolEsedekesseg(gep: Gep): Esedekesseg {
+export const szamolEsedekesseg = (gep: Gep): Esedekesseg => {
   const tipus = geptipusById(gep.geptipus_id)
 
   let hatralevo_nap: number | null = null
@@ -64,7 +64,7 @@ export function szamolEsedekesseg(gep: Gep): Esedekesseg {
 }
 
 /** "19 napja lejárt", "8 nap múlva", "190 üzemóra múlva" */
-export function esedekessegSzoveg(e: Esedekesseg): string {
+export const esedekessegSzoveg = (e: Esedekesseg): string => {
   if (e.meghatarozo === 'uzemora' && e.hatralevo_uzemora !== null) {
     const h = e.hatralevo_uzemora
     return h <= 0 ? `${szam(-h)} üzemórával túllépve` : `${szam(h)} üzemóra múlva`
@@ -77,6 +77,4 @@ export function esedekessegSzoveg(e: Esedekesseg): string {
 }
 
 /** A ciklus eltelt része, a kettő közül a nagyobb – a sávokhoz és a rendezéshez */
-export function legnagyobbArany(e: Esedekesseg): number {
-  return Math.max(e.nap_arany ?? 0, e.ora_arany ?? 0)
-}
+export const legnagyobbArany = (e: Esedekesseg): number => Math.max(e.nap_arany ?? 0, e.ora_arany ?? 0)

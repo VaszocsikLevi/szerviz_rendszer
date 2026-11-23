@@ -13,7 +13,7 @@ type Szuro = 'MIND' | EsemenyStatusz
 
 const szurok: Szuro[] = ['MIND', 'TERVEZETT', 'KIOSZTOTT', 'FOLYAMATBAN', 'KESZ', 'LEZART', 'TOROLT']
 
-export default function Szervizesemenyek() {
+const Szervizesemenyek = () => {
   const [szuro, setSzuro] = useState<Szuro>('MIND')
   const [kereses, setKereses] = useState('')
   const [ujNyitva, setUjNyitva] = useState(false)
@@ -200,3 +200,5 @@ export default function Szervizesemenyek() {
     </div>
   )
 }
+
+export default Szervizesemenyek

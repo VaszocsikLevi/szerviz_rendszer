@@ -26,13 +26,13 @@ const NAP_HOSSZ = NAP_VEGE - NAP_ELEJE
 /** A próbaadatokhoz rögzített "most". Élesben: new Date() */
 const MOST = '10:20'
 
-function oraTizedes(hhmm: string): number {
+const oraTizedes = (hhmm: string): number => {
   const [h, m] = hhmm.split(':').map(Number)
   return h + m / 60
 }
 
 /** Az idővonal blokkjának helye: a munkalap valós ideje, ha van, különben a terv */
-function blokkHelye(e: Szervizesemeny) {
+const blokkHelye = (e: Szervizesemeny) => {
   const lap = munkalapByEsemeny(e.id)
   const kezd = lap ? oraTizedes(lap.kezdes_idopont.slice(11, 16)) : oraTizedes(e.tervezett_idopont ?? '08:00')
   const hossz = lap ? lap.munkaora : e.becsult_ora
@@ -43,7 +43,7 @@ function blokkHelye(e: Szervizesemeny) {
   }
 }
 
-export default function Dashboard() {
+const Dashboard = () => {
   // Lezárt munkák az oldalon belül – élesben: PATCH /api/szervizesemenyek/{uuid}/statusz
   const [lezartak, setLezartak] = useState<number[]>([])
 
@@ -298,3 +298,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+export default Dashboard

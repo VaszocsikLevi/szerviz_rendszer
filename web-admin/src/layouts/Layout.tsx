@@ -36,7 +36,7 @@ const utolsoMunkalap = munkalapok
   .sort()
   .at(-1)
 
-function MenuCsoport({ cim, pontok }: { cim: string; pontok: Menupont[] }) {
+const MenuCsoport = ({ cim, pontok }: { cim: string; pontok: Menupont[] }) => {
   return (
     <div className="nav__csoport">
       <span className="nav__cim">{cim}</span>
@@ -51,7 +51,7 @@ function MenuCsoport({ cim, pontok }: { cim: string; pontok: Menupont[] }) {
   )
 }
 
-export default function Layout() {
+const Layout = () => {
   return (
     <div className="menu">
       <aside className="sidebar">
@@ -100,3 +100,5 @@ export default function Layout() {
     </div>
   )
 }
+
+export default Layout

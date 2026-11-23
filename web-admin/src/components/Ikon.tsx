@@ -140,7 +140,7 @@ interface IkonProps {
   className?: string
 }
 
-export default function Ikon({ nev, meret = 16, className }: IkonProps) {
+const Ikon = ({ nev, meret = 16, className }: IkonProps) => {
   return (
     <svg
       className={className ? `ikon ${className}` : 'ikon'}
@@ -158,3 +158,5 @@ export default function Ikon({ nev, meret = 16, className }: IkonProps) {
     </svg>
   )
 }
+
+export default Ikon

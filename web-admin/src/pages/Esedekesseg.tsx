@@ -18,7 +18,7 @@ const szuroFelirat: Record<Szuro, string> = {
 }
 
 // Nyitott (még nem lezárt) karbantartás a géphez – ilyenkor nem kell újat tervezni
-function nyitottKarbantartas(gepId: number) {
+const nyitottKarbantartas = (gepId: number) => {
   return szervizesemenyek.find(
     (e) =>
       e.gep_id === gepId &&
@@ -28,7 +28,7 @@ function nyitottKarbantartas(gepId: number) {
   )
 }
 
-export default function Esedekesseg() {
+const Esedekesseg = () => {
   const [szuro, setSzuro] = useState<Szuro>('mind')
 
   const sorok = gepek
@@ -127,3 +127,5 @@ export default function Esedekesseg() {
     </div>
   )
 }
+
+export default Esedekesseg

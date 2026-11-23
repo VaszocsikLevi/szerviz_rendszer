@@ -16,7 +16,7 @@ import { tipusFelirat } from '../data/cimkek'
 import { datum, ido, penz, rovidId, szam } from '../utils/format'
 import './GepAdat.css'
 
-export default function GepAdat() {
+const GepAdat = () => {
   const { uuid } = useParams()
   const gep = uuid ? gepByUuid(uuid) : undefined
 
@@ -307,3 +307,5 @@ export default function GepAdat() {
     </div>
   )
 }
+
+export default GepAdat

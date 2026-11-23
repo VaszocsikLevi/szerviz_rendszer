@@ -12,7 +12,7 @@ import Telephelyek from './pages/Telephelyek'
 import Ugyfelek from './pages/Ugyfelek'
 import './index.css'
 
-export default function App(){
+const App = () => {
   return(
     <Routes>
       <Route path='/' element={<Layout />}>
@@ -31,3 +31,5 @@ export default function App(){
     </Routes>
   )
 }
+
+export default App

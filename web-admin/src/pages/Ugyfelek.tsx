@@ -5,7 +5,7 @@ import Fiok from '../components/Fiok'
 import { gepek, szervizesemenyek, telephelyek, ugyfelek } from '../data/mock'
 
 // Darabszámok ügyfelenként – élesben ezt az API adja (COUNT + GROUP BY)
-function ugyfelOsszesito(ugyfelId: number) {
+const ugyfelOsszesito = (ugyfelId: number) => {
   const sajatTelephelyek = telephelyek.filter((t) => t.ugyfel_id === ugyfelId).map((t) => t.id)
   const sajatGepek = gepek.filter((g) => sajatTelephelyek.includes(g.telephely_id)).map((g) => g.id)
   const nyitott = szervizesemenyek.filter(
@@ -14,7 +14,7 @@ function ugyfelOsszesito(ugyfelId: number) {
   return { telephely: sajatTelephelyek.length, gep: sajatGepek.length, nyitott }
 }
 
-export default function Ugyfelek() {
+const Ugyfelek = () => {
   const [kereses, setKereses] = useState('')
   const [ujNyitva, setUjNyitva] = useState(false)
 
@@ -131,3 +131,5 @@ export default function Ugyfelek() {
     </div>
   )
 }
+
+export default Ugyfelek

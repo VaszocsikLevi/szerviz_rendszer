@@ -3,7 +3,7 @@
 
 const MERET = 25
 
-function hash(szoveg: string): number {
+const hash = (szoveg: string): number => {
   let h = 2166136261
   for (let i = 0; i < szoveg.length; i++) {
     h ^= szoveg.charCodeAt(i)
@@ -13,7 +13,7 @@ function hash(szoveg: string): number {
 }
 
 /** A három sarokjel helye */
-function sarokjel(x: number, y: number): boolean | null {
+const sarokjel = (x: number, y: number): boolean | null => {
   const sarkok = [
     [0, 0],
     [MERET - 7, 0],
@@ -32,7 +32,7 @@ function sarokjel(x: number, y: number): boolean | null {
   return null
 }
 
-export default function QrMinta({ uuid, meret = 96 }: { uuid: string; meret?: number }) {
+const QrMinta = ({ uuid, meret = 96 }: { uuid: string; meret?: number }) => {
   let mag = hash(uuid)
   const negyzetek: { x: number; y: number }[] = []
   for (let y = 0; y < MERET; y++) {
@@ -55,3 +55,5 @@ export default function QrMinta({ uuid, meret = 96 }: { uuid: string; meret?: nu
     </svg>
   )
 }
+
+export default QrMinta

@@ -9,7 +9,7 @@ import { prioritasFelirat, statuszFelirat, statuszSorrend } from '../data/cimkek
  * A rendszer saját jele: az állapotgép öt lépése egy sávban.
  * TERVEZETT -> KIOSZTOTT -> FOLYAMATBAN -> KESZ -> LEZART
  */
-export function StatuszLepcso({ statusz }: { statusz: EsemenyStatusz }) {
+export const StatuszLepcso = ({ statusz }: { statusz: EsemenyStatusz }) => {
   const aktualis = statuszSorrend.indexOf(statusz)
   return (
     <span className={`lepcso lepcso--${statusz.toLowerCase()}`} title={statuszFelirat[statusz]}>
@@ -23,11 +23,9 @@ export function StatuszLepcso({ statusz }: { statusz: EsemenyStatusz }) {
   )
 }
 
-export function PrioritasCimke({ prioritas }: { prioritas: Prioritas }) {
-  return <span className={`prioritas prioritas--${prioritas.toLowerCase()}`}>{prioritasFelirat[prioritas]}</span>
-}
+export const PrioritasCimke = ({ prioritas }: { prioritas: Prioritas }) => <span className={`prioritas prioritas--${prioritas.toLowerCase()}`}>{prioritasFelirat[prioritas]}</span>
 
-export function EsedekessegCimke({ e }: { e: Esedekesseg }) {
+export const EsedekessegCimke = ({ e }: { e: Esedekesseg }) => {
   return (
     <span className={`esedekes esedekes--${e.allapot}`}>
       <span className="pont" aria-hidden="true" />
@@ -37,7 +35,7 @@ export function EsedekessegCimke({ e }: { e: Esedekesseg }) {
 }
 
 /** Vékony sáv: a karbantartási ciklus mekkora része telt el */
-export function CiklusSav({ e, arany }: { e: Esedekesseg; arany?: number | null }) {
+export const CiklusSav = ({ e, arany }: { e: Esedekesseg; arany?: number | null }) => {
   const a = arany ?? legnagyobbArany(e)
   const szazalek = Math.max(0, Math.min(1, a)) * 100
   return (
@@ -47,7 +45,7 @@ export function CiklusSav({ e, arany }: { e: Esedekesseg; arany?: number | null 
   )
 }
 
-export function Kezdobetuk({ nev }: { nev: string }) {
+export const Kezdobetuk = ({ nev }: { nev: string }) => {
   const betuk = nev
     .split(' ')
     .map((r) => r[0])

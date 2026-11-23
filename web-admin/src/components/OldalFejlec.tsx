@@ -7,7 +7,7 @@ interface OldalFejlecProps {
   children?: ReactNode
 }
 
-export default function OldalFejlec({ cim, alcim, children }: OldalFejlecProps) {
+const OldalFejlec = ({ cim, alcim, children }: OldalFejlecProps) => {
   return (
     <header className="oldalfejlec">
       <div>
@@ -18,3 +18,5 @@ export default function OldalFejlec({ cim, alcim, children }: OldalFejlecProps) 
     </header>
   )
 }
+
+export default OldalFejlec

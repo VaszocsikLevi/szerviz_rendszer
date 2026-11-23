@@ -196,7 +196,7 @@ export const szereloById = (id: number | null) => (id === null ? undefined : sze
 export const munkalapByEsemeny = (esemenyId: number) => munkalapok.find((m) => m.szervizesemeny_id === esemenyId)
 
 /** A géphez tartozó telephely és ügyfél egyben */
-export function gepHelye(gep: Gep) {
+export const gepHelye = (gep: Gep) => {
   const telephely = telephelyById(gep.telephely_id)
   const ugyfel = ugyfelById(telephely.ugyfel_id)
   return { telephely, ugyfel }

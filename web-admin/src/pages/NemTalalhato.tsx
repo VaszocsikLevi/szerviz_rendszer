@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Ikon from '../components/Ikon'
 import './Login.css'
 
-export default function NemTalalhato() {
+const NemTalalhato = () => {
   return (
     <div className="content">
       <div className="nemtalalhato">
@@ -17,3 +17,5 @@ export default function NemTalalhato() {
     </div>
   )
 }
+
+export default NemTalalhato

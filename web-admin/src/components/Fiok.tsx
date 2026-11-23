@@ -14,7 +14,7 @@ interface FiokProps {
   children: ReactNode
 }
 
-export default function Fiok({ cim, nyitva, onBezar, mentesFelirat, onMentes, children }: FiokProps) {
+const Fiok = ({ cim, nyitva, onBezar, mentesFelirat, onMentes, children }: FiokProps) => {
   // Esc bezárja
   useEffect(() => {
     if (!nyitva) return
@@ -59,3 +59,5 @@ export default function Fiok({ cim, nyitva, onBezar, mentesFelirat, onMentes, ch
     </>
   )
 }
+
+export default Fiok

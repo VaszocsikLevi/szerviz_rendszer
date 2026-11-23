@@ -8,7 +8,7 @@ import { geptipusById, geptipusok, gepHelye, gepek, telephelyek, ugyfelById, ugy
 import { szamolEsedekesseg } from '../data/esedekesseg'
 import { datum, szam } from '../utils/format'
 
-export default function GepLista() {
+const GepLista = () => {
   const navigate = useNavigate()
   const [kereses, setKereses] = useState('')
   const [ugyfelId, setUgyfelId] = useState('')
@@ -172,3 +172,5 @@ export default function GepLista() {
     </div>
   )
 }
+
+export default GepLista

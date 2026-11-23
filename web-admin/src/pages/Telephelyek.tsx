@@ -4,7 +4,7 @@ import Ikon from '../components/Ikon'
 import Fiok from '../components/Fiok'
 import { gepek, szervizesemenyek, telephelyek, ugyfelById, ugyfelek } from '../data/mock'
 
-export default function Telephelyek() {
+const Telephelyek = () => {
   const [ugyfelId, setUgyfelId] = useState('')
   const [ujNyitva, setUjNyitva] = useState(false)
 
@@ -121,3 +121,5 @@ export default function Telephelyek() {
     </div>
   )
 }
+
+export default Telephelyek
