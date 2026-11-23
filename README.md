@@ -1,111 +1,49 @@
 # szerviz_rendszer
 
-A projekt egy ipari gépekkel, berendezésekkel foglalkozó vállalkozásoknak, cégeknek a rendszere, amely a szervízmunka nyilvántartására jellemzően pappíron vagy Exelben vezetik.
+Karbantartás-előrejelző terepi szerviz rendszer ipari gépekkel foglalkozó vállalkozásoknak, ahol a szervizmunkát ma jellemzően papíron vagy Excelben vezetik.
 
-A rendszer 2 felületet foglal magába:
-1. a diszpécser felülete amelyen nyomonköveti, a munkafolyamatokat, irányítja a szerelőket és ellenörzi a karbantartási időket. illetve az ügyfeleket viszi fel gépekkel. 
-2. a szerelő mobilos nézete, itt látja a napi munkáit, QR-al azonosítja a gépeket és kitölti a munkanaplóját.
-3. A karbantartások esedékessége nincs követve. Vagy túl gyakran mennek ki, vagy akkor, amikor már elromlott.
-A rendszer erre ad választ: minden gépnek van egy digitális előélete, amit a szerelő a helyszínen, telefonról elér és bővít — akkor is, ha nincs térerő.
+*Technikusi vizsgaremek — Szoftverfejlesztő és -tesztelő technikus, Széchenyi István Technikum, Székesfehérvár. Készítők: Vaszócsik Levente, Domonkos.*
 
-2. Kik használják
-Szerepkör	Hol	Mit csinál
-Diszpécser	irodában, böngészőben	felviszi az ügyfeleket, telephelyeket, gépeket; kiosztja a munkákat; látja az esedékes karbantartásokat; lezárja a szervizeseményeket
-Szerelő	terepen, telefonon	látja a napi munkáit, QR-ral azonosítja a gépet, kitölti a munkalapot, fotóz, aláírat
-Ügyfél	bárhol, böngészőben	egy publikus oldalon, azonosító alapján megnézi, hol tart a javítás (bejelentkezés nélkül)
-3. Hogyan működik – egy nap a szerelő szemével
-Reggel, irodában vagy otthon wifin: a szerelő megnyitja a mobilappot, és letölti a napi munkacsomagot. Ez tartalmazza a mai munkáit, a hozzájuk tartozó gépek adatait és a korábbi szervizelőzményeket.
-Kiér a telephelyre, ahol lehet, hogy nincs térerő (pince, csarnok, ipari terület).
-Beolvassa a gépen lévő QR-kódot. A telefon a saját lokális adatbázisából előhozza a gép teljes előéletét.
-Elvégzi a munkát, közben fotóz, rögzíti a felhasznált alkatrészeket, leírja, mit csinált, beírja a munkaidőt.
-Az ügyfél ujjal aláír a képernyőn.
-Minden a telefonon marad, amíg nincs hálózat.
-Amikor lesz térerő, az app automatikusan feltölti a szerverre: munkalapok, fotók, aláírások.
-A diszpécser a webes felületen látja a beérkezett munkalapot, és lezárja a szervizeseményt.
-Az ügyfél a publikus oldalon látja, hogy elkészült.
-4. Mit jelent technikailag az offline
-Ez a rendszer legfontosabb és legnehezebb része, ezért érdemes közösen tisztán érteni.
+## Mit tud
 
-A telefonon van egy saját, kis adatbázis (SQLite), ami a szerver adatainak egy részét tárolja. Két irány van:
+- **Diszpécser (web admin, böngésző):** ügyfelek, telephelyek, gépek felvitele; munkák kiosztása a szerelőknek; esedékes karbantartások követése; szervizesemények lezárása.
+- **Szerelő (mobilapp, Android és iPhone):** napi munkák, gépazonosítás QR-kóddal, munkalap kitöltése fotóval, alkatrészekkel és aláírással — **térerő nélkül is**, a telefon később szinkronizál.
+- **Ügyfél (publikus oldal):** bejelentkezés nélkül, azonosító alapján megnézheti, hol tart a javítás.
 
-Letöltés (szerver → telefon). Amikor van hálózat, az app lekéri a szerelőhöz tartozó munkákat és gépadatokat, és elmenti lokálisan.
+Minden gépnek digitális előélete van, és a rendszer gépenként számolja, mikor esedékes a következő karbantartás (naptári idő és üzemóra alapján, amelyik előbb lejár).
 
-Feltöltés (telefon → szerver). Amit a szerelő offline rögzít, az lokálisan mentődik szinkronizálatlan jelöléssel. Amikor visszatér a hálózat, az app egyenként felküldi őket, és sikeres feltöltés után átjelöli szinkronizált-ra.
+## Felépítés
 
-Két szabály, amit be kell tartanunk az adatmodellben
-a) A telefon adja az azonosítót. A munkalap már a telefonon megkapja a végleges azonosítóját (UUID), mert offline nem tudja megkérdezni a szervert. Ezért minden táblában, amit a mobil hoz létre, kell egy UUID mező az auto-increment ID mellé.
+| Komponens | Technológia | Mappa | Állapot |
+|---|---|---|---|
+| Adatbázis | PostgreSQL 16 | `database/` | Séma kész |
+| Backend API | C# / ASP.NET Core | — | Tervezve |
+| Web admin | React + Vite + TypeScript | `web-admin/` | Folyamatban |
+| Mobilapp | React Native + Expo (offline, lokális SQLite) | — | Tervezve |
+| Publikus oldal, nyomtatható sablonok | HTML + CSS | — | Tervezve |
+| Adatimport | Python CLI szkript | — | Tervezve |
 
-b) Ütközésnél a szerver nyer. Ha ugyanazt a rekordot a diszpécser is módosította, amíg a szerelő offline volt, akkor a szerver változata marad érvényben, és a telefon megmutatja a szerelőnek, hogy a módosítása felülíródott. Ehhez minden rekordon kell egy verzio mező, amit módosításkor növelünk.
+A rendszer saját gépen fut, előfizetéses felhőszolgáltatás nélkül: az adatbázis, a backend és a web admin egy laptopon, a mobilapp a helyi wifin csatlakozik hozzá.
 
-Ez így egyszerűbb, mint az általános megoldás, és a vizsgán meg lehet indokolni, miért ezt választottuk.
+## Dokumentáció
 
-5. Rendszerkomponensek
-[ Mobil app ]  ──HTTP──┐
-  React Native          │
-  + lokális SQLite      │
-                        v
-[ Web admin ] ──HTTP──> [ Backend API ] ──> [ PostreSQL ]
-  React                   Spring Boot
-                            │
-                            v
-                     [ Python szolgáltatás ]
-                       FastAPI (opcionális)
-[ Publikus oldal ]
-  statikus HTML/CSS ──HTTP──> Backend API
-Komponens	Mit csinál
-Backend API	Az egyetlen, ami az adatbázishoz nyúl. Minden más rajta keresztül dolgozik.
-PostgreSQL	A rendszer igazsága. Minden végleges adat itt van.
-Web admin	A diszpécser felülete. Csak online működik.
-Mobil app	A szerelő felülete. Offline is működik, saját lokális adatbázissal.
-Publikus oldal	Kézzel írt HTML/CSS. Csak olvas, azonosító alapján.
-Python eszközök	Adatimport bevezetéskor, seed-adat generálás, később karbantartás-előrejelzés. A rendszer nélkülük is teljes.
-6. Adatmodell – ez az SQL alapja
+- [Projektleírás](docs/projektleiras.md) — a probléma, a szerepkörök, az offline működés, az adatmodell és az állapotgép
+- [Roadmap](docs/roadmap.md) — mérföldkövek, iterációk, kockázatok
+- [Adatbázisséma](database/V1__init.sql) és [ERD](database/szerviz_diagram.png)
 
-Táblánként:
-ugyfel — a megrendelő cég id, nev, adoszam, kapcsolattarto_nev, email, telefon, letrehozva
+## Futtatás fejlesztéshez
 
-telephely — ahol a gépek fizikailag vannak id, ugyfel_id (FK), nev, cim, varos, iranyitoszam, megjegyzes
+**Adatbázis** (PostgreSQL 16 telepítve):
 
-geptipus — a típus hordozza a karbantartási szabályt, nem az egyedi gép id, gyarto, tipusnev, leiras, karbantartas_ciklus_nap, karbantartas_ciklus_uzemora
+```bash
+createdb szerviz
+psql -d szerviz -f database/V1__init.sql
+```
 
-Megbeszélendő: lehet mindkettő kitöltve? Ha igen, melyik esedékesség számít — amelyik előbb eljön?
+**Web admin** (Node.js szükséges):
 
-gep — az egyedi példány id, uuid, geptipus_id (FK), telephely_id (FK), sorozatszam, qr_kod, telepites_datuma, uzemora, aktiv, letrehozva, modositva
-
-Megbeszélendő: a qr_kod legyen külön mező, vagy elég a uuid-t belekódolni a QR-be? Az utóbbi egyszerűbb.
-
-felhasznalo id, email, jelszo_hash, nev, szerepkor (DISZPECSER / SZERELO), telefon, aktiv, letrehozva
-
-szervizesemeny — egy kiszállás vagy munka id, uuid, gep_id (FK), hozzarendelt_szerelo_id (FK, nullable), tipus (TERVEZETT_KARBANTARTAS / HIBABEJELENTES), statusz, bejelentett_hiba, tervezett_datum, prioritas, letrehozva, modositva, verzio
-
-munkalap — amit a szerelő a helyszínen kitölt id, uuid, szervizesemeny_id (FK), elvegzett_munka, megallapitott_hiba, kezdes_idopont, befejezes_idopont, munkaora, alairas_kep (base64 vagy fájlút), alairo_nev, letrehozva_mobilon, szinkronizalva, verzio
-
-foto id, uuid, munkalap_id (FK), fajl_ut, tipus (HIBA / ELVEGZETT_MUNKA), keszult, feltoltve
-
-alkatresz — egyszerű katalógus, nem teljes készletkezelés id, cikkszam, megnevezes, egyseg, egysegar
-
-alkatresz_felhasznalas id, uuid, munkalap_id (FK), alkatresz_id (FK), mennyiseg
-
-Az állapotgép
-A szervizesemeny.statusz értékei és az engedélyezett átmenetek:
-
-TERVEZETT ──> KIOSZTOTT ──> FOLYAMATBAN ──> KESZ ──> LEZART
-Átmenet	Ki válthatja	Mikor
-TERVEZETT → KIOSZTOTT	diszpécser	szerelő hozzárendelésekor
-KIOSZTOTT → FOLYAMATBAN	szerelő	amikor elkezdi a munkát
-FOLYAMATBAN → KESZ	szerelő	munkalap beküldésekor
-KESZ → LEZART	diszpécser	ellenőrzés után
-bármi → TOROLT	diszpécser	lemondás esetén
-Ezt a szabályt a backendnek kell kikényszerítenie — nem elég a felületen letiltani a gombot.
-
-7. Adatmigráció – hogyan kerül be a meglévő nyilvántartás
-A rendszer bevezetésekor az ügyfélnél már ott van 100–300 gép Excelben vagy papíron. Ezt kézzel begépelni nem reális, tehát kell egy betöltési út.
-
-Folyamatos adatfelvitel	a diszpécser új ügyfelet, telephelyet, gépet visz fel	az admin felület CRUD funkciói
-Kezdeti betöltés (migráció)	egyszeri, nagy tömegű adat behozása bevezetéskor	Python CLI import szkript
-Excel (.xlsx) és CSV bemenet
-Fuzzy fejlécillesztés: felismeri, hogy a Gyártási szám, Sorozatszám, S/N, Serial mind ugyanaz az oszlop. Karakterlánc-hasonlóság alapján.
-Típusfelismerés mintákkal: dátumformátumok, számok, irányítószám
-Soronkénti validáció, a hibás sorok külön hibafájlba
-Duplikátumszűrés sorozatszám alapján
-Bizonytalanság esetén visszakérdez, nem talál ki.
+```bash
+cd web-admin
+npm install
+npm run dev
+```
