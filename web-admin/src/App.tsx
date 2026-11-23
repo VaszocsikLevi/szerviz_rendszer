@@ -18,13 +18,14 @@ export default function App(){
       <Route path='/' element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="gepek" element={<GepLista />} />
+          {/* A gép adatlapja is a Layout alatt van, hogy legyen oldalsávja */}
+          <Route path="gepek/:uuid" element={<GepAdat />} />
           <Route path="esedekesseg" element={<Esedekesseg />} />
           <Route path="munkakiosztas" element={<Munkakiosztas />} />
           <Route path="szervizesemenyek" element={<Szervizesemenyek />} />
           <Route path="telephelyek" element={<Telephelyek />} />
           <Route path="ugyfelek" element={<Ugyfelek />} />
       </Route>
-          <Route path="gepek/:uuid" element={<GepAdat />} />
           <Route path="login" element={<Login />} />
           <Route path="*" element={<NemTalalhato />} />
     </Routes>

@@ -1,0 +1,331 @@
+/* =========================================================
+   Gép adatlap (GepAdat.tsx)
+   ========================================================= */
+
+/* Felül: adattábla | következő karbantartás, alatta a telephely teljes szélességben */
+.gepadat {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.gepadat__telephely { grid-column: 1 / -1; }
+
+/* ---------- Adattábla – mint a gépre szegecselt fém névtábla ---------- */
+.adattabla {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-10) var(--space-10) var(--space-8);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  /* enyhe tónusváltás egy semleges színen belül: matt fém */
+  background: linear-gradient(180deg, #fbfbfa 0%, #ecece9 100%);
+  box-shadow: inset 0 1px 0 #fff, var(--shadow-sm);
+}
+
+/* Bemélyített belső keret */
+.adattabla::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(22, 24, 27, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+/* Szegecsek a sarkokban */
+.adattabla__szegecs {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, #c9c9c5 55%, #9d9d98 100%);
+  box-shadow: 0 1px 1px rgba(22, 24, 27, 0.25);
+}
+
+.adattabla__szegecs:nth-of-type(1) { top: 20px; left: 20px; }
+.adattabla__szegecs:nth-of-type(2) { top: 20px; right: 20px; }
+.adattabla__szegecs:nth-of-type(3) { bottom: 20px; left: 20px; }
+.adattabla__szegecs:nth-of-type(4) { bottom: 20px; right: 20px; }
+
+.adattabla__fej {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.adattabla__gyarto {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.adattabla__tipus {
+  display: block;
+  margin: var(--space-1) 0 var(--space-2);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.adattabla__leiras {
+  color: var(--text-2);
+}
+
+.adattabla__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+}
+
+.adattabla__qr .mono {
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+
+.adattabla__mezok {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid rgba(22, 24, 27, 0.12);
+}
+
+.adattabla__mezok div {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid rgba(22, 24, 27, 0.12);
+}
+
+.adattabla__mezok div:nth-child(odd) {
+  padding-right: var(--space-6);
+  border-right: 1px solid rgba(22, 24, 27, 0.12);
+}
+
+.adattabla__mezok div:nth-child(even) { padding-left: var(--space-6); }
+
+.adattabla__mezok dt {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.adattabla__mezok dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+/* ---------- Következő karbantartás ---------- */
+.ciklus-kartya { display: flex; flex-direction: column; }
+
+.ciklus-kartya__test {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.ciklus-sor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ciklus-sor__fej {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-2);
+}
+
+.ciklus-sor__fej .mono { color: var(--text); }
+
+.ciklus-sor .ciklus { height: 6px; border-radius: 3px; }
+.ciklus-sor .ciklus__kitoltes { border-radius: 3px; }
+
+.ciklus-sor__al {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.ciklus-kartya__utolso {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* ---------- Telephely ---------- */
+.hely {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.hely__megjegyzes {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--r);
+  background: var(--warn-soft);
+  font-size: 13px;
+  color: var(--warn);
+}
+
+.hely__megjegyzes .ikon { margin-top: 3px; }
+
+.hely__kapcsolat {
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--line);
+}
+
+/* ---------- Szervizelőzmények idővonal ---------- */
+.elozmenyek {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.elozmenyek__fej {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.idoszal {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.idoszal__elem {
+  --pont-szin: var(--st-lezart);
+  position: relative;
+  display: grid;
+  grid-template-columns: 112px 24px minmax(0, 1fr);
+  padding-bottom: var(--space-4);
+}
+
+.idoszal__elem--kesz { --pont-szin: var(--st-kesz); }
+.idoszal__elem--folyamatban { --pont-szin: var(--st-folyamatban); }
+.idoszal__elem--kiosztott { --pont-szin: var(--st-kiosztott); }
+.idoszal__elem--tervezett,
+.idoszal__elem--torolt { --pont-szin: var(--st-tervezett); }
+
+/* Függőleges vonal a pontok között */
+.idoszal__elem::before {
+  content: '';
+  position: absolute;
+  left: calc(112px + 11px);
+  top: 26px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--line);
+}
+
+.idoszal__elem:last-child::before { display: none; }
+
+.idoszal__datum {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-4);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.idoszal__pont {
+  justify-self: center;
+  width: 10px;
+  height: 10px;
+  margin-top: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--pont-szin);
+}
+
+.esemeny {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.esemeny__fej {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.esemeny__fej .tipus {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.esemeny__id { margin-left: auto; }
+
+.esemeny__bejelentes {
+  font-size: 13px;
+}
+
+.esemeny__szoveg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: 72ch;
+}
+
+/* Felhasznált alkatrészek */
+.alkatresz-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.alkatresz-tabla td {
+  height: 32px;
+  padding: 0 var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.alkatresz-tabla td:first-child { padding-left: 0; }
+.alkatresz-tabla td:last-child { padding-right: 0; width: 110px; }
+
+.alkatresz-tabla .jobbra { text-align: right; white-space: nowrap; }
+
+.alkatresz-tabla tfoot td {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.esemeny__lab {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.esemeny__lab span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.esemeny__lab .ikon { color: var(--text-3); }

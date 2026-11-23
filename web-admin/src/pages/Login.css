@@ -1,0 +1,47 @@
+/* =========================================================
+   Bejelentkezés (Login.tsx) és 404 (NemTalalhato.tsx)
+   ========================================================= */
+
+.login__oszlop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.marka.marka--vilagos {
+  margin: 0;
+  color: var(--text);
+}
+
+.login__cim {
+  font-size: 24px;
+  margin-bottom: var(--space-1);
+}
+
+.login .gomb--teljes {
+  height: 40px;
+  margin-top: var(--space-2);
+}
+
+.login__megj {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* ---------- 404 ---------- */
+.nemtalalhato {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  width: 440px;
+}
+
+.nemtalalhato__kod {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent-ink);
+}
+
+.nemtalalhato .gomb { margin-top: var(--space-2); }

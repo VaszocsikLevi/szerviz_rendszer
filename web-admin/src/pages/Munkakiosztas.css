@@ -1,0 +1,182 @@
+/* =========================================================
+   Munkakiosztás (Munkakiosztas.tsx)
+   ========================================================= */
+
+/* Napváltó a fejlécben */
+.napvalto {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.napvalto__nap {
+  min-width: 220px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Két rész: váró munkák | szerelők */
+.kiosztas {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* ---------- Bal: kiosztásra váró munkák ---------- */
+.kiosztas__varo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.kiosztas__oszlopfej {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  height: 24px;
+}
+
+.kiosztas__ures {
+  padding: var(--space-8) var(--space-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-card);
+  color: var(--text-3);
+  text-align: center;
+}
+
+.munkakartya {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.munkakartya__fej {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.munkakartya__hiba {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--r);
+  background: var(--raised);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.munkakartya__meta {
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.munkakartya__kiosztas {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+}
+
+/* ---------- Jobb: szerelők oszlopai ---------- */
+.kiosztas__szerelok {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-top: 36px; /* a bal oszlop fejlécének magassága + rés */
+}
+
+.szereloszlop {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.szereloszlop__fej {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+.szereloszlop__nev {
+  min-width: 0;
+}
+
+/* Terhelés: hány óra a 8-ból */
+.terheles {
+  display: block;
+  height: 4px;
+  margin: 0 var(--space-4) var(--space-3);
+  border-radius: 2px;
+  background: rgba(22, 24, 27, 0.08);
+  overflow: hidden;
+}
+
+.terheles span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--text-2);
+  transition: width var(--t-mid) var(--ease);
+}
+
+.terheles--tul span { background: var(--danger); }
+
+.szereloszlop__lista {
+  margin: 0;
+  padding: 0 var(--space-2) var(--space-2);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-2);
+}
+
+.napimunka {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border-radius: var(--r);
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.napimunka:hover { background: var(--raised); }
+
+.napimunka .cella__fo,
+.napimunka .cella__al {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.napimunka .cella__al { margin-bottom: 6px; }
+
+.napimunka__ido {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.szereloszlop__ures {
+  padding: var(--space-6) var(--space-3);
+  font-size: 13px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+/* Keskenyebb kijelzőn két szerelő egy sorban */
+@media (max-width: 1439px) {
+  .kiosztas { grid-template-columns: 300px minmax(0, 1fr); }
+  .kiosztas__szerelok { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .szereloszlop { min-height: 0; }
+}
